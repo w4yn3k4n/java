@@ -1,0 +1,61 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Stage {
+	private String stageType;
+	private List<String> availablePokemons;
+	private Random randomPokemon; 
+	
+	public Stage(String stageType) {
+		this.stageType = stageType;
+		this.availablePokemons = new ArrayList<>();
+		this.randomPokemon = new Random();
+	}
+
+	public void addPokemon(String pokemonName) {
+		availablePokemons.add(pokemonName);
+	}
+	
+	public void chooseStage() {
+		System.out.println("Please choose a stage: " + getStageType());
+		System.out.println("You may encounter these Pokémon: " + availablePokemons);
+	}
+	
+	public void encounterPokemon() {
+		int chance = randomPokemon.nextInt(10);
+		
+		if(chance < 5) {
+			int randomIndex = randomPokemon.nextInt(availablePokemons.size());
+			String encounteredPokemon = availablePokemons.get(randomIndex);
+			System.out.println("You encountered a " + encounteredPokemon + "!");
+		} else {
+			System.out.println("No Pokémon appeared this time.");
+		}
+	}
+	
+	public String getStageType() {
+		return stageType;
+	}
+
+	public void setStageType(String stageType) {
+		this.stageType = stageType;
+	}
+
+	public List<String> getAvailablePokemons() {
+		return availablePokemons;
+	}
+
+	public void setAvailablePokemons(List<String> availablePokemons) {
+		this.availablePokemons = availablePokemons;
+	}
+
+	public Random getRandomPokemon() {
+		return randomPokemon;
+	}
+
+	public void setRandomPokemon(Random randomPokemon) {
+		this.randomPokemon = randomPokemon;
+	}
+}
+
