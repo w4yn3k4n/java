@@ -6,7 +6,7 @@ public class Trainer {
     private static String name;
     private static List<Pokemon> caughtPokemons;
     private Scanner scanner;
-    
+    private static Pokemon lastCaughtPokemon;
     
 
     public Trainer(String name) {
@@ -33,6 +33,7 @@ public class Trainer {
     }
     
     public static void catchPokemon(Pokemon pokemon) {
+    	lastCaughtPokemon = pokemon;
         if (caughtPokemons == null) {
             caughtPokemons = new ArrayList<>();
         }
@@ -41,6 +42,9 @@ public class Trainer {
         System.out.println(name + " caught a new Pokémon: " + pokemon.getName());
     }
 
+    public static Pokemon getLastCaughtPokemon() {
+        return lastCaughtPokemon; 
+    }
     
     public void enterName() {
 		System.out.println("Enter your name Trainer: ");
