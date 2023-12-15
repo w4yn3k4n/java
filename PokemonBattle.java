@@ -4,15 +4,21 @@ import java.util.Scanner;
 public class PokemonBattle {
     private Pokemon oppoPoke1;
     private Pokemon oppoPoke2;
+    private Pokemon userPoke1;
+    private Pokemon userPoke2;
     private String stage;
     private Scanner scanner;
-    
+    private Random random;
     
     
     // constructors
-    public PokemonBattle(Pokemon oppoPoke1, Pokemon oppoPoke2) {
+    public PokemonBattle(Pokemon oppoPoke1, Pokemon oppoPoke2, Pokemon userPoke1, Pokemon userPoke2) {
         this.oppoPoke1 = oppoPoke1;
         this.oppoPoke2 = oppoPoke2;
+        this.userPoke1 = userPoke1;
+        this.userPoke2 = userPoke2;
+        this.scanner = new Scanner(System.in);
+        this.random = new Random();
     }
 
     public PokemonBattle(String stage) {
@@ -21,6 +27,7 @@ public class PokemonBattle {
     
     public PokemonBattle() {
         this.scanner = new Scanner(System.in);
+        this.random = new Random();
     }
     
     
@@ -34,8 +41,29 @@ public class PokemonBattle {
         return oppoPoke2;
     }
     
+    public void setOppoPoke1(Pokemon oppoPoke1) {
+		this.oppoPoke1 = oppoPoke1;
+	}
 
+    public void setOppoPoke2(Pokemon oppoPoke2) {
+		this.oppoPoke2 = oppoPoke2;
+	}
+    public Pokemon getUserPokemon1() {
+    	return userPoke1;
+    }
+    
+    public Pokemon getUserPokemon2() {
+    	return userPoke2;
+    }
+    
+    public void setUserPoke1(Pokemon userPoke1) {
+		this.userPoke1 = userPoke1;
+	}
 
+    public void setUserPoke2(Pokemon userPoke2) {
+		this.userPoke2 = userPoke2;
+	}
+    
 	public String getStage() {
         return stage;
     }
@@ -44,7 +72,25 @@ public class PokemonBattle {
 		this.stage = stage;
 	}
 	
-	
+	public static void printUserPokemonDetails(Pokemon userPoke1, Pokemon userPoke2) {
+		 System.out.println("User Pokemon 1 Details:");
+	        System.out.println("Name: " + userPoke1.getName());
+	        System.out.println("Type: " + userPoke1.getType());
+	        System.out.println("Move Type: " + userPoke1.getMoveType());
+	        System.out.println("HP: " + userPoke1.getHp());
+	        System.out.println("Attack: " + userPoke1.getAtk());
+	        System.out.println("Defense: " + userPoke1.getDef());
+	        System.out.println("Speed: " + userPoke1.getSpd());
+
+	        System.out.println("\nUser Pokemon 2 Details:");
+	        System.out.println("Name: " + userPoke2.getName());
+	        System.out.println("Type: " + userPoke2.getType());
+	        System.out.println("Move Type: " + userPoke2.getMoveType());
+	        System.out.println("HP: " +userPoke2.getHp());
+	        System.out.println("Attack: " + userPoke2.getAtk());
+	        System.out.println("Defense: " + userPoke2.getDef());
+	        System.out.println("Speed: " + userPoke2.getSpd() + "\n");
+    }
 	
 	//method for getting pokemon details during battle
 	public static void printPokemonDetails(Pokemon oppoPoke1, Pokemon oppoPoke2) {
@@ -68,10 +114,26 @@ public class PokemonBattle {
     }
 	
 	
+	public void startBattle() {
+	    System.out.println("Get ready for battle!");
+	    printPokemonDetails(oppoPoke1, oppoPoke2);
+	    System.out.println("Battle starts!");
+
+	    while (oppoPoke1.getHp() > 0 && oppoPoke2.getHp() > 0) {
+	        attack();
+	    }
+
+	    if (oppoPoke1.getHp() <= 0) {
+	        System.out.println(oppoPoke1.getName() + " fainted! " + oppoPoke2.getName() + " wins!");
+	    } else {
+	        System.out.println(oppoPoke2.getName() + " fainted! " + oppoPoke1.getName() + " wins!");
+	    }
+	}
 	
 	
-	
-    //method for generating pokemon during battle
+
+
+	//method for generating pokemon during battle
     public static Pokemon getRandomPokemonBattle(Pokemon[] pokemonArray, String stage) {
         Random random = new Random();
         int randomIndex = random.nextInt(pokemonArray.length);
@@ -108,11 +170,11 @@ public class PokemonBattle {
         switch (userChoice) {
             case 1:
                 stage = new PokemonBattle("Forest");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!");
+                System.out.println("You've chosen the " + stage.getStage() + " stage!\nThere is a higher chance of meeting a Lugia during battle!");
                 break;
             case 2:
                 stage = new PokemonBattle("Cave");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!");
+                System.out.println("You've chosen the " + stage.getStage() + " stage!\nThere is a higher chance of meeting a Charizard during battle!");
                 break;
             case 3:
                 stage = new PokemonBattle("Mountain");
@@ -121,5 +183,38 @@ public class PokemonBattle {
         }
     }
 
-    // Other methods related to PokemonBattle can be added here
+    
+    public void attack() {
+        System.out.println("Choose 1 or 2 to either attack or defend: ");
+
+        int userChoice;
+        while (true) {
+            try {
+                userChoice = Integer.parseInt(scanner.nextLine());
+                if (userChoice == 1 || userChoice == 2) {
+                    break;
+                } else {
+                    System.out.println("Invalid choice. Please enter 1 or 2 to either attack or defend.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter 1 or 2 to either attack or defend.");
+            }
+        }
+
+        int randomNumber = random.nextInt(2) + 1; 
+
+        if (userChoice == randomNumber) {
+            System.out.println("You attack!");
+            oppoPoke1.attack(oppoPoke2); // Replace with actual logic
+        } else {
+            System.out.println("You defend!");
+            oppoPoke2.defend();
+        }
+    }
+	public void setUserPokemons(Pokemon[] userPokemon) {
+
+		
+	}
+
+	
 }
