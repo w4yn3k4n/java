@@ -1,3 +1,5 @@
+package assignment;
+
 import java.util.*;
 
 public class PokemonGame {
@@ -34,8 +36,26 @@ public class PokemonGame {
         System.out.println("");
 
         PokemonBattle pokemonBattle = new PokemonBattle();
-        pokemonBattle.chooseStage();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose a stage (Forest / Cave / Mountain):");
+        String chosenStage = scanner.nextLine().toLowerCase(); // Assuming user inputs "forest" or "cave" or "mountain"
+        
+        Stage currentStage = null; // Declare currentStage=null (to match the user chosen stage)
 
+
+        if (chosenStage.equals("forest")) {
+        	currentStage = new ForestStage(pokemonArray);
+        } else if (chosenStage.equals("cave")) {
+        	currentStage = new CaveStage(pokemonArray);
+        } else if (chosenStage.equals("mountain")) {
+        	currentStage = new MountainStage(pokemonArray);
+        } else {
+            System.out.println("Invalid stage choice. Exiting.");
+            return;
+        }
+
+        
+        currentStage.chooseStage(); // Display available Pokémon in the chosen stage
 		
         System.out.println("");
         
@@ -47,21 +67,18 @@ public class PokemonGame {
         PokemonCatch wp = new PokemonCatch(Pokemon.getRandomPokemonCatch(pokemonArray), Pokemon.getRandomPokemonCatch(pokemonArray), Pokemon.getRandomPokemonCatch(pokemonArray));
         PokemonCatch.printPokemonDetails(wp.getWildPoke1(), wp.getWildPoke2(), wp.getWildPoke3());
         
-        
-        
-        
+
         //Catch pokemon
         PokemonCatch c1 = new PokemonCatch();
         c1.catching(wp.getWildPoke1(), wp.getWildPoke2(), wp.getWildPoke3());
         
         // Assuming you have the player's Pokémon ready, for instance, pokemonArray[0]
         Pokemon playerPokemon = pokemonArray[0];  // Replace this with the player's chosen Pokémon
+        
+        // Get the opponent's Pokémon from the chosen stage
+        Pokemon wildPokemon = currentStage.chooseOpponentPokemon();
 
-        // Assuming you have wild Pokémon ready for battle
-        Pokemon wildPokemon = Pokemon.getRandomPokemonBattle(pokemonArray);
-
-        PokemonBattle Battle = new PokemonBattle();  // Create an instance of PokemonBattle
-
+ 
         // Start the battle between player's Pokémon and the wild Pokémon
         pokemonBattle.startBattle(playerPokemon, wildPokemon);
 
