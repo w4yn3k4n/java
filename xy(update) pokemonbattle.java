@@ -1,3 +1,5 @@
+package assignment;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -78,48 +80,6 @@ public class PokemonBattle {
         return pokemonArray[randomIndex];
     }
     
-    
-    
-    
-    // method for choosing stage
-    public void chooseStage() {
-        System.out.println("Choose a stage (1, 2, or 3):");
-        System.out.println("1. Forest (Lugia)");
-        System.out.println("2. Cave (Charizard)");
-        System.out.println("3. Mountain (Lucario)");
-        System.out.print("Enter the stage number: ");
-
-        int userChoice;
-        while (true) {
-            try {
-                userChoice = Integer.parseInt(scanner.nextLine());
-                if (userChoice >= 1 && userChoice <= 3) {
-                    break;
-                } else {
-                    System.out.println("Invalid choice. Please enter a number between 1 and 3.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number between 1 and 3.");
-            }
-        }
-
-        PokemonBattle stage = null;
-
-        switch (userChoice) {
-            case 1:
-                stage = new PokemonBattle("Forest");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!");
-                break;
-            case 2:
-                stage = new PokemonBattle("Cave");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!");
-                break;
-            case 3:
-                stage = new PokemonBattle("Mountain");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!\nThere is a higher chance of meeting a Lucario during battle!");
-                break;
-        }
-    }
     public void startBattle(Pokemon playerPoke, Pokemon opponentPoke) {
         System.out.println("\n----------Battle Start!----------\n");
         System.out.println("Player sends out " + playerPoke.getName() + "!\n");
@@ -130,7 +90,7 @@ public class PokemonBattle {
 
         while (true) {
             // Player's turn to attack
-            System.out.println("-------Your turns to attack!-------");
+            System.out.println("\n-------Your turns to attack!-------");
             System.out.println("\nGo, " + playerPoke.getName() + "!\n");
 
             // Determine effectiveness based on types
@@ -147,21 +107,21 @@ public class PokemonBattle {
             // Check if opponent is defeated
             if (newOpponentHp <= 0) {
                 System.out.println("You defeated " + opponentPoke.getName() + "!");
-                System.out.println("----------Battle End-----------");
+                System.out.println("\n\n----------Battle End-----------");
                 break;
             } else {
                 System.out.println(opponentPoke.getName() + " has " + opponentPoke.getHp() + " HP remaining!");
             }
 
             // Opponent's turn to attack
-            System.out.println("-------Opponent's turns to attack!-------");
+            System.out.println("\n-------Opponent's turns to attack!-------");
             System.out.println("\n" + opponentPoke.getName() + " attacks!\n");
 
             // Determine effectiveness based on types for opponent's attack
             double opponentEffectiveness = determineEffectiveness(opponentPoke.getType(), playerPoke.getType());
 
             // Calculate damage based on effectiveness for opponent's attack
-            int opponentDamage = (int) (10.0 * (opponentPoke.getAtk() / playerPoke.getDef()) * opponentEffectiveness);
+            int opponentDamage = (int) (15.0 * (opponentPoke.getAtk() / playerPoke.getDef()) * opponentEffectiveness);
 
             System.out.println("ATTACK POWER: -" + opponentDamage + " HP");
 
