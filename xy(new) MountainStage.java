@@ -32,5 +32,5 @@ public class MountainStage extends Stage {
 	        }
 	    }
 
-	    // Other methods related to ForestStage can be added here
+	    // Other methods related to MountainStage can be added here
 	}
