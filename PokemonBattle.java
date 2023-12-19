@@ -4,32 +4,30 @@ import java.util.Scanner;
 public class PokemonBattle {
     private Pokemon oppoPoke1;
     private Pokemon oppoPoke2;
-    private Pokemon userPoke1;
-    private Pokemon userPoke2;
     private String stage;
     private Scanner scanner;
+    public String player_command;
     private Random random;
     
-    
     // constructors
-    public PokemonBattle(Pokemon oppoPoke1, Pokemon oppoPoke2, Pokemon userPoke1, Pokemon userPoke2) {
+    public PokemonBattle(Pokemon oppoPoke1, Pokemon oppoPoke2) {
         this.oppoPoke1 = oppoPoke1;
         this.oppoPoke2 = oppoPoke2;
-        this.userPoke1 = userPoke1;
-        this.userPoke2 = userPoke2;
         this.scanner = new Scanner(System.in);
         this.random = new Random();
     }
 
     public PokemonBattle(String stage) {
 		this.stage = stage;
+		this.scanner = new Scanner(System.in);
+        this.random = new Random();
+		
 	}
     
     public PokemonBattle() {
         this.scanner = new Scanner(System.in);
         this.random = new Random();
     }
-    
     
 
     //set get
@@ -40,30 +38,7 @@ public class PokemonBattle {
     public Pokemon getOppoPoke2() {
         return oppoPoke2;
     }
-    
-    public void setOppoPoke1(Pokemon oppoPoke1) {
-		this.oppoPoke1 = oppoPoke1;
-	}
 
-    public void setOppoPoke2(Pokemon oppoPoke2) {
-		this.oppoPoke2 = oppoPoke2;
-	}
-    public Pokemon getUserPokemon1() {
-    	return userPoke1;
-    }
-    
-    public Pokemon getUserPokemon2() {
-    	return userPoke2;
-    }
-    
-    public void setUserPoke1(Pokemon userPoke1) {
-		this.userPoke1 = userPoke1;
-	}
-
-    public void setUserPoke2(Pokemon userPoke2) {
-		this.userPoke2 = userPoke2;
-	}
-    
 	public String getStage() {
         return stage;
     }
@@ -72,26 +47,14 @@ public class PokemonBattle {
 		this.stage = stage;
 	}
 	
-	public static void printUserPokemonDetails(Pokemon userPoke1, Pokemon userPoke2) {
-		 System.out.println("User Pokemon 1 Details:");
-	        System.out.println("Name: " + userPoke1.getName());
-	        System.out.println("Type: " + userPoke1.getType());
-	        System.out.println("Move Type: " + userPoke1.getMoveType());
-	        System.out.println("HP: " + userPoke1.getHp());
-	        System.out.println("Attack: " + userPoke1.getAtk());
-	        System.out.println("Defense: " + userPoke1.getDef());
-	        System.out.println("Speed: " + userPoke1.getSpd());
+	public Random getRandom() {
+		return random;
+	}
 
-	        System.out.println("\nUser Pokemon 2 Details:");
-	        System.out.println("Name: " + userPoke2.getName());
-	        System.out.println("Type: " + userPoke2.getType());
-	        System.out.println("Move Type: " + userPoke2.getMoveType());
-	        System.out.println("HP: " +userPoke2.getHp());
-	        System.out.println("Attack: " + userPoke2.getAtk());
-	        System.out.println("Defense: " + userPoke2.getDef());
-	        System.out.println("Speed: " + userPoke2.getSpd() + "\n");
-    }
-	
+	public void setRandom(Random random) {
+		this.random = random;
+	}
+
 	//method for getting pokemon details during battle
 	public static void printPokemonDetails(Pokemon oppoPoke1, Pokemon oppoPoke2) {
         System.out.println("Opponent Pokemon 1 Details:");
@@ -112,109 +75,239 @@ public class PokemonBattle {
         System.out.println("Defense: " + oppoPoke2.getDef());
         System.out.println("Speed: " + oppoPoke2.getSpd());
     }
-	
-	
-	public void startBattle() {
-	    System.out.println("Get ready for battle!");
-	    printPokemonDetails(oppoPoke1, oppoPoke2);
-	    System.out.println("Battle starts!");
 
-	    while (oppoPoke1.getHp() > 0 && oppoPoke2.getHp() > 0) {
-	        attack();
-	    }
-
-	    if (oppoPoke1.getHp() <= 0) {
-	        System.out.println(oppoPoke1.getName() + " fainted! " + oppoPoke2.getName() + " wins!");
-	    } else {
-	        System.out.println(oppoPoke2.getName() + " fainted! " + oppoPoke1.getName() + " wins!");
-	    }
-	}
-	
-	
-
-
-	//method for generating pokemon during battle
+    //method for generating pokemon during battle
     public static Pokemon getRandomPokemonBattle(Pokemon[] pokemonArray, String stage) {
         Random random = new Random();
         int randomIndex = random.nextInt(pokemonArray.length);
         return pokemonArray[randomIndex];
     }
     
-    
-    
-    
-    // method for choosing stage
-    public void chooseStage() {
-        System.out.println("Choose a stage (1, 2, or 3):");
-        System.out.println("1. Forest (Lugia)");
-        System.out.println("2. Cave (Charizard)");
-        System.out.println("3. Mountain (Lucario)");
-        System.out.print("Enter the stage number: ");
 
-        int userChoice;
+
+    public void startBattle(Pokemon playerPoke, Pokemon opponentPoke) {
+        System.out.println("\n----------Battle Start!----------\n");
+        System.out.println("Player sends out " + playerPoke.getName() + "!\n");
+        displayPokemonDetails(playerPoke);
+        System.out.println("\nOpponent sends out " + opponentPoke.getName() + "!\n");
+        displayPokemonDetails(opponentPoke);
+        
+       
         while (true) {
-            try {
-                userChoice = Integer.parseInt(scanner.nextLine());
-                if (userChoice >= 1 && userChoice <= 3) {
+            // Player's turn to attack
+            System.out.println("\n-------Your turns!-------");
+            System.out.println("\nGo, " + playerPoke.getName() + "!\n");
+            
+            System.out.println("Enter '1' to attack or '2' to defend:");
+            String player_command = "";
+            while (!(player_command.equals("1") || player_command.equals("2"))) {
+            	 player_command = scanner.next();
+            }
+           
+            //player attack
+            if(player_command.equals("1")) {
+            	   boolean miniGameResult = playMiniGame();
+            	   int playerDamage = calculateRandomDamage(playerPoke.getAtk(), 0.5, 0.8, determineEffectiveness(playerPoke.getType(), opponentPoke.getType()));
+            	    
+                   if (miniGameResult) {
+                       System.out.println("Congratulations! You won the mini-game. Your attack damage increases!");
+                       int increasedAttack = increaseAttackDamage(playerDamage);
+                       performPlayerAttack(playerPoke, opponentPoke, increasedAttack);
+                   } else {
+                   	System.out.println("Oops! You lost the mini-game. Proceeding with the attack.");
+                    performPlayerAttack(playerPoke, opponentPoke,0);
+                   }
+                  
+            }
+            else if(player_command.equals("2")) {
+            	 boolean miniGameResult = playMiniGame();
+            	 int opponentDamage = calculateRandomDamage(opponentPoke.getAtk(), 0.2, 0.5,determineEffectiveness(opponentPoke.getType(), playerPoke.getType()));
+            	
+            	 
+            	 if(miniGameResult) {
+            		 System.out.println("Congratulations! You won the mini-game. Your defense increases!");
+            		 int increasedDefense = increaseDefense(opponentDamage);
+            		 performPlayerDefend(playerPoke, opponentPoke,increasedDefense);		 
+            	 }else {
+            		 System.out.println("Oops! You lost the mini-game. Proceeding with the defend.");
+            		 performPlayerDefend(playerPoke, opponentPoke,0);	
+            	 }
+            }
+            
+            if (opponentPoke.getHp() <= 0) {
+                System.out.println( opponentPoke.getName() +" is fainted...!");
+                System.out.println("\n\n----------Battle End-----------");
+                break;
+            }
+            
+            if (!player_command.equals("2")) {
+                System.out.println("\n-------Opponent's turns!-------");
+                System.out.println("\n" + opponentPoke.getName() + " attacks!\n");
+
+                performOpponentAttack(playerPoke, opponentPoke);
+
+                // Check if player is defeated
+                if (playerPoke.getHp() <= 0) {
+                	System.out.println(playerPoke.getName() + "is fainted...!");
+                    System.out.println("You are defeated......");
+                    System.out.println("----------Battle End-----------");
                     break;
-                } else {
-                    System.out.println("Invalid choice. Please enter a number between 1 and 3.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number between 1 and 3.");
+                }  
             }
         }
+    }
+    
+	//Random damage
+    private int calculateRandomDamage(double damage, double minMultiplier, double maxMultiplier, double effectiveness) {
+        Random random = new Random();
+        double randomMultiplier = minMultiplier + (maxMultiplier - minMultiplier) * random.nextDouble();
+        return (int) (damage * randomMultiplier * effectiveness);
+    }
+    
+    private void performPlayerAttack(Pokemon playerPoke, Pokemon opponentPoke,int increasedAttack ) {
+        double playerEffectiveness = determineEffectiveness(playerPoke.getType(), opponentPoke.getType());
+        int playerDamage = calculateRandomDamage(playerPoke.getAtk(), 0.5, 0.8, playerEffectiveness);
 
-        PokemonBattle stage = null;
+        if (increasedAttack > 0) {
+            System.out.println("Increased Attack Power: -" + (int) increasedAttack + " HP");
 
-        switch (userChoice) {
-            case 1:
-                stage = new PokemonBattle("Forest");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!\nThere is a higher chance of meeting a Lugia during battle!");
-                break;
-            case 2:
-                stage = new PokemonBattle("Cave");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!\nThere is a higher chance of meeting a Charizard during battle!");
-                break;
-            case 3:
-                stage = new PokemonBattle("Mountain");
-                System.out.println("You've chosen the " + stage.getStage() + " stage!\nThere is a higher chance of meeting a Lucario during battle!");
-                break;
+            // Update opponent's HP again using the increased attack value
+            double newOpponentHpWithIncreasedAttack = Math.max(opponentPoke.getHp() - increasedAttack, 0);
+            opponentPoke.setHp(newOpponentHpWithIncreasedAttack);
+
+            System.out.println(opponentPoke.getName() + " has " + opponentPoke.getHp() + " HP remaining!");
+        }
+        else {
+        	System.out.println("ATTACK POWER: -" + playerDamage + " HP");
+            
+            // Update opponent's HP after player's attack
+            double newOpponentHp =Math.max(opponentPoke.getHp() - playerDamage,0);
+            opponentPoke.setHp(newOpponentHp);
+
+            System.out.println(opponentPoke.getName() + " has " + opponentPoke.getHp() + " HP remaining!");
         }
     }
 
-    
-    public void attack() {
-        System.out.println("Choose 1 or 2 to either attack or defend: ");
+    private void performPlayerDefend(Pokemon playerPoke, Pokemon opponentPoke,int increasedDefense) {
+        double opponentEffectiveness = determineEffectiveness(opponentPoke.getType(), playerPoke.getType());
+        int opponentDamage = calculateDamage(opponentPoke, playerPoke, opponentEffectiveness);
+        
+        if(increasedDefense > 0) {
+        	System.out.println("Attack Power: -" + (int) increasedDefense + "HP");
+        	
+        	double newPlayerHpWithIncreasedDefense = Math.max(playerPoke.getHp() - increasedDefense, 0);
+            playerPoke.setHp(newPlayerHpWithIncreasedDefense);
+        }
+        
+        else {
+        	opponentDamage = (int) (opponentDamage * 0.5);
+            
+            System.out.println(playerPoke.getName() + " defends!");
 
-        int userChoice;
-        while (true) {
-            try {
-                userChoice = Integer.parseInt(scanner.nextLine());
-                if (userChoice == 1 || userChoice == 2) {
-                    break;
-                } else {
-                    System.out.println("Invalid choice. Please enter 1 or 2 to either attack or defend.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter 1 or 2 to either attack or defend.");
-            }
+            // Display opponent's attack
+            System.out.println("\n-------Opponent's turns!-------");
+            System.out.println("\n" + opponentPoke.getName() + " attacks!\n");
+            System.out.println("ATTACK POWER: -" + opponentDamage + " HP");
+
+            playerPoke.setHp(playerPoke.getHp() - opponentDamage);
         }
 
-        int randomNumber = random.nextInt(2) + 1; 
+        System.out.println(playerPoke.getName() + " defends and has " + playerPoke.getHp() + " HP remaining!");
+    }
 
-        if (userChoice == randomNumber) {
-            System.out.println("You attack!");
-            oppoPoke1.attack(oppoPoke2); // Replace with actual logic
+    private void performOpponentAttack(Pokemon playerPoke, Pokemon opponentPoke) {
+        double opponentEffectiveness = determineEffectiveness(opponentPoke.getType(), playerPoke.getType());
+        int opponentDamage = calculateRandomDamage(opponentPoke.getAtk(), 0.2, 0.5, opponentEffectiveness);
+
+        System.out.println("ATTACK POWER: -" + opponentDamage + " HP");
+        // Update player's HP after opponent's attack
+        double newPlayerHp = Math.max(playerPoke.getHp() - opponentDamage, 0); // Ensure HP is not negative
+        playerPoke.setHp(newPlayerHp);
+
+        System.out.println(playerPoke.getName() + " has " + playerPoke.getHp() + " HP remaining!");
+    }
+
+    private int calculateDamage(Pokemon attacker, Pokemon defender, double effectiveness) {
+        return (int) (15.0 * (attacker.getAtk() / defender.getDef()) * effectiveness);
+    }
+    
+    public boolean playMiniGame() {
+      
+        Random random = new Random();
+        int userGuess;
+        int randomNumber = random.nextInt(4) + 1;
+        System.out.println("Welcome to the mini-game! Let's see if you can win and boost your attack damage!");
+        System.out.println("Guess a number between 1 and 4:");
+        userGuess = scanner.nextInt();
+        
+        boolean miniGameResult = userGuess == randomNumber;
+        
+        if(miniGameResult) {
+        	System.out.println("Congratulations! You guessed correctly.");
         } else {
-            System.out.println("You defend!");
-            oppoPoke2.defend();
+        	System.out.println("Oops! You guessed incorrectly. The correct number was: " + randomNumber);
         }
+        return miniGameResult;
     }
+    
+    private int increaseAttackDamage(int playerDamage) {
+    	double increasedAttack = playerDamage * 2; 
+    	return (int) increasedAttack;
+    }
+    
+    private int increaseDefense(int opponentDamage) {
+    	double increasedDefense = opponentDamage * 0.3;
+    	return (int) increasedDefense;
+    }
+    
 	public void setUserPokemons(Pokemon[] userPokemon) {
 
-		
 	}
+    
+    
+    // Method to determine effectiveness based on types
+    private double determineEffectiveness(String attackerType, String defenderType) {
+        // Default effectiveness
+        double effectiveness = 1.0;
 
-	
+        // Super effective interactions
+        if (attackerType.equals("Fire") && defenderType.equals("Grass") ||
+            attackerType.equals("Water") && defenderType.equals("Fire") ||
+            attackerType.equals("Electric") && defenderType.equals("Water") ||
+            attackerType.equals("Poison") && defenderType.equals("Fairy") ||
+            attackerType.equals("Rock") && defenderType.equals("Flying") ||
+            attackerType.equals("Ground") && defenderType.equals("Rock") ||
+            attackerType.equals("Flying") && defenderType.equals("Fighting")) {
+            effectiveness = 2.0;
+        }
+        
+        // Not very effective interactions
+        else if (attackerType.equals("Water") && defenderType.equals("Grass") ||
+                 attackerType.equals("Grass") && defenderType.equals("Water") ||
+                 attackerType.equals("Fairy") && defenderType.equals("Poison") ||
+                 attackerType.equals("Flying") && defenderType.equals("Electric") ||
+                 attackerType.equals("Electric") && defenderType.equals("Rock") ||
+                 attackerType.equals("Fighting") && defenderType.equals("Flying")) {
+            effectiveness = 0.5;
+        }
+        
+        // No effect interactions
+        else if (attackerType.equals("Normal") && defenderType.equals("Ghost") ||
+                 attackerType.equals("Electric") && defenderType.equals("Ground") ||
+                 attackerType.equals("Ground") && defenderType.equals("Flying")) {
+            effectiveness = 0.0;
+        }
+
+        return effectiveness;
+    }
+    private void displayPokemonDetails(Pokemon pokemon) {
+        System.out.println("Type: " + pokemon.getType());
+        System.out.println("Move Type: " + pokemon.getMoveType());
+        System.out.println("HP: " + pokemon.getHp());
+        System.out.println("Attack: " + pokemon.getAtk());
+        System.out.println("Defense: " + pokemon.getDef());
+        System.out.println("Speed: " + pokemon.getSpd());
+    }
+
+    // Other methods related to PokemonBattle can be added here
 }

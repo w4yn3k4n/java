@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class MountainStage extends Stage {
+	 private List<Pokemon> mountainPokemons;
+
+	    public MountainStage(Pokemon[] pokemonArray) {
+	        super("Mountain");
+	        mountainPokemons = new ArrayList<>(Arrays.asList(pokemonArray));
+	        addPokemon("Lucario");
+	        addPokemon("Pidgey");
+	        addPokemon("Geodude");
+	    }
+
+	    @Override
+	    public Pokemon chooseOpponentPokemon() {
+	        List<Pokemon> availableOpponents = new ArrayList<>();
+	        for (Pokemon pokemon : mountainPokemons) {
+	            if (pokemon.getName().equals("Lucario") ||
+	                pokemon.getName().equals("Pidgey") ||
+	                pokemon.getName().equals("Geodude")) {
+	                availableOpponents.add(pokemon);
+	            }
+	        }
+
+	        if (!availableOpponents.isEmpty()) {
+	            Collections.shuffle(availableOpponents);
+	            return availableOpponents.get(0); // Return a random opponent from available ones
+	        } else {
+	            // If none of the specific Pokémon are available, return a default Pokémon
+	            return new Pokemon("Lucario", "Fighting/Steel", "Aura Sphere", 70.0, 110.0, 70.0, 90.0);
+	        }
+	    }
+
+	    // Other methods related to MountainStage can be added here
+	}

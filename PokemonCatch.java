@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
 
 public class PokemonCatch {
 	private Pokemon WildPoke1;
