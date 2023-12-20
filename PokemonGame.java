@@ -179,19 +179,37 @@ public class PokemonGame {
         System.out.println(op.getOppoPoke2().getName() + " appeared");
         System.out.println("\n--------------------------------------\n");
         
-        player.catchPokemon(pokemonArray[1]);
-        System.out.println("");
-        System.out.println("Choose your pokemon to battle");
+       	System.out.println("");
         player.displayCaughtPokemons();
         while (player.getCaughtPokemons().size() < 2) {
             System.out.println("You need at least 2 Pokémon to start a battle.");
-            while (player.getCaughtPokemons().size() < 2) {
-                System.out.println("Borrow a Pokémon from the game:");
+            while (player.getCaughtPokemons().size() < 2) {         
+                while (true) {      	
+                System.out.println("Borrow a Pokémon from the game? (yes/no):"); 
+                String ans = scanner.nextLine();
+                if (ans.equalsIgnoreCase("yes")) {
+                    System.out.println("Giving you a random pokemon in\n3.\n2.\n1.\n:");
+                	player.catchPokemon(Pokemon.getRandomPokemonCatch(pokemonArray));  
+                	break;
+                }
+                else if(ans.equalsIgnoreCase("no")) {
+                    System.out.println("\nYou can't play without 2 pokemon!");
+                    
+                }
+                
+                else {
+                	System.out.println("Invalid answer!");
+                }
+                
+                }
             }
         }
 
         int choice1 = 0, choice2 = 0;
         
+       
+        System.out.println("Choose your pokemon to battle");
+        player.displayCaughtPokemons();
  
         
        
