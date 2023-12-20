@@ -364,6 +364,13 @@ public class PokemonGame {
         }
         }
 
+	pokemonBattle.setOppoPoke1(pokemon1);
+        pokemonBattle.setOppoPoke2(pokemon2);
+        
+       int battleScore = pokemonBattle.calculateBattleScore();
+       System.out.println("\nBattle Score: " + battleScore);
+       
+       pokemonBattle.displayTopScores();
        
     }
 }
