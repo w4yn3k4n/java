@@ -1,3 +1,5 @@
+package oopffinal;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +12,6 @@ public class PokemonBattle {
     private Pokemon oppoPoke1;
     private Pokemon oppoPoke2;
     private String stage;
-    private static Scanner scanner1;
     private Scanner scanner;
     public String player_command;
     private Random random;
@@ -35,7 +36,7 @@ public class PokemonBattle {
         this.random = new Random();
     }
     
-
+    
     //set get
     public Pokemon getOppoPoke1() {
         return oppoPoke1;
@@ -122,105 +123,72 @@ public class PokemonBattle {
 
 	}
 	
-	public static void MyTurnChoose (Pokemon pokemon1, Pokemon pokemon2, Pokemon oppoPoke, Pokemon oppoPoke2) {
-		int pkchoice;
-		Scanner scanner = new Scanner(System.in);
-    	while(true) {
-    	try {
-    	System.out.println("");
-    	System.out.println("Choose a pokemon to use. (1 or 2):");
-    	pkchoice = scanner.nextInt();
-    	if(pkchoice == 1 && pokemon1.getHp() > 0) {
-    		PokemonBattle.myTurn(oppoPoke, oppoPoke2, pokemon1);
-    		break;
-    	}
-    	else if (pkchoice == 1 && pokemon1.getHp() <= 0) {
-    		System.out.println(pokemon1.getName()+ " has fainted");
-    		System.out.println(" Choose another pokemon");
-    	}
-    	else if (pkchoice == 2 && pokemon2.getHp() > 0) {
-    		PokemonBattle.myTurn(oppoPoke, oppoPoke2, pokemon2);
-    		break;
-    	}
-    	else if (pkchoice == 2 && pokemon2.getHp() <= 0) {
-    		System.out.println(pokemon2.getName()+ " has fainted");
-    		System.out.println(" Choose another pokemon");
-    	}
+	public void MyTurnChoose(Pokemon pokemon1, Pokemon pokemon2, Pokemon oppoPoke, Pokemon oppoPoke2) {
+	    int pkchoice;
+	    Scanner scanner = new Scanner(System.in);
+	    PokemonBattle mt = new PokemonBattle(); // Create an instance of PokemonBattle
 
+	    while (true) {
+	        try {
+	            System.out.println("");
+	            System.out.println("Choose a pokemon to use. (1 or 2):");
+
+	            pkchoice = scanner.nextInt();
+
+	            if (pkchoice == 1 && pokemon1.getHp() > 0) {
+	                mt.myTurn(oppoPoke, oppoPoke2, pokemon1);
+	                break;
+	            } else if (pkchoice == 1 && pokemon1.getHp() <= 0) {
+	                System.out.println(pokemon1.getName() + " has fainted");
+	                System.out.println("Choose another pokemon");
+	            } else if (pkchoice == 2 && pokemon2.getHp() > 0) {
+	                mt.myTurn(oppoPoke, oppoPoke2, pokemon2);
+	                break;
+	            } else if (pkchoice == 2 && pokemon2.getHp() <= 0) {
+	                System.out.println(pokemon2.getName() + " has fainted");
+	                System.out.println("Choose another pokemon");
+	            } else {
+	                System.out.println("Invalid Choice, choose again.");
+	            }
+	        } catch (java.util.InputMismatchException e) {
+	            System.out.println("Invalid Choice, enter a valid integer.");
+	            scanner.next();
+	        }
+	    }
+	}
+	
+	public void TurnOppo(Pokemon pokemon1, Pokemon pokemon2, Pokemon oppoPoke) {
+		PokemonBattle mt = new PokemonBattle();
+		int oneTwo = (Pokemon.generateOneTwo());
+    	if ((oneTwo == 1) && (pokemon1.getHp() > 0)) {
+    		mt.OppoTurn(oppoPoke, pokemon1);
+    	}
+    	else if ((oneTwo == 1) && (pokemon1.getHp() <= 0)){
+    		mt.OppoTurn(oppoPoke, pokemon2);
+    	}
+    	else if ((oneTwo == 2) && (pokemon2.getHp() > 0)){
+    		mt.OppoTurn(oppoPoke, pokemon2);
+    	}
     	else {
-    		System.out.println("Invalid Choice, choose again.");
-    	}
-    		}
-    	catch(java.util.InputMismatchException e) {	
-    		System.out.println("Invalid Choice, enter a valid integer.");
-            scanner.next();
-    	}
+    		mt.OppoTurn(oppoPoke, pokemon1);
     	}
 	}
 
-	public static void OpponentTurnChoose (Pokemon pokemon1, Pokemon pokemon2, Pokemon oppoPoke, Pokemon oppoPoke2) {
+	public void OpponentTurnChoose (Pokemon pokemon1, Pokemon pokemon2, Pokemon oppoPoke, Pokemon oppoPoke2) {
 		System.out.println("-------Opponent's turns to attack!-------");
+		PokemonBattle ot = new PokemonBattle();
         int twoOne = (Pokemon.generateOneTwo());
         if ((twoOne == 1) && (oppoPoke.getHp() > 0)) {
-        	int oneTwo = (Pokemon.generateOneTwo());
-        	if ((oneTwo == 1) && (pokemon1.getHp() > 0)) {
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon1);
-        	}
-        	else if ((oneTwo == 1) && (pokemon1.getHp() <= 0)){
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon2);
-        	}
-        	else if ((oneTwo == 2) && (pokemon2.getHp() > 0)){
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon2);
-        	}
-        	else {
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon1);
-        	}
+        	ot.TurnOppo(pokemon1, pokemon2, oppoPoke);
         }
- 
         else if ((twoOne == 1) && (oppoPoke.getHp() <= 0)) {
-        	int oneTwo = (Pokemon.generateOneTwo());
-        	if ((oneTwo == 1) && (pokemon1.getHp() > 0)) {
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon1);
-        	}
-        	else if ((oneTwo == 1) && (pokemon1.getHp() <= 0)){
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon2);
-        	}
-        	else if ((oneTwo == 2) && (pokemon2.getHp() > 0)){
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon2);
-        	}
-        	else {
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon1);
-        	}
+        	ot.TurnOppo(pokemon1, pokemon2, oppoPoke2);
         }
         else if ((twoOne == 2) && (oppoPoke2.getHp() > 0)) {
-        	int oneTwo = (Pokemon.generateOneTwo());
-        	if ((oneTwo == 1) && (pokemon1.getHp() > 0)) {
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon1);
-        	}
-        	else if ((oneTwo == 1) && (pokemon1.getHp() <= 0)){
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon2);
-        	}
-        	else if ((oneTwo == 2) && (pokemon2.getHp() > 0)){
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon2);
-        	}
-        	else {
-        		PokemonBattle.OppoTurn(oppoPoke2, pokemon1);
-        	}
+        	ot.TurnOppo(pokemon1, pokemon2, oppoPoke2);
         }
         else if ((twoOne == 2) && (oppoPoke2.getHp() <= 0)) {
-        	int oneTwo = (Pokemon.generateOneTwo());
-        	if ((oneTwo == 1) && (pokemon1.getHp() > 0)) {
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon1);
-        	}
-        	else if ((oneTwo == 1) && (pokemon1.getHp() <= 0)){
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon2);
-        	}
-        	else if ((oneTwo == 2) && (pokemon2.getHp() > 0)){
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon2);
-        	}
-        	else {
-        		PokemonBattle.OppoTurn(oppoPoke, pokemon1);
-        	}
+        	ot.TurnOppo(pokemon1, pokemon2, oppoPoke);
         }
         else {
         	System.out.println("HUH?");
@@ -389,6 +357,8 @@ public class PokemonBattle {
         System.out.println("Defense: " + pokemon.getDef());
         System.out.println("Speed: " + pokemon.getSpd());
     }
+    
+    
 
 	public void setOppoPoke1(Pokemon chooseOpponentPokemon) {
 		this.oppoPoke1 = chooseOpponentPokemon;
@@ -397,59 +367,60 @@ public class PokemonBattle {
 	public void setOppoPoke2(Pokemon chooseOpponentPokemon) {
 		this.oppoPoke2 = chooseOpponentPokemon;
 	}
-
-	public static void myTurn(Pokemon oppoPoke1, Pokemon oppoPoke2, Pokemon pk) {
+	
+	
+	public void MyTurnCalDMG (double stat, double newhp, Pokemon oppoPoke, Pokemon pk) {
+        double playerEffectiveness = PokemonBattle.determineEffectiveness(pk.getMoveType(), oppoPoke.getType());
+        int playerDamage = (int) (stat* (pk.getAtk() / oppoPoke.getDef()) * playerEffectiveness);
+        System.out.println("ATTACK POWER: -" + playerDamage + " HP");
+        newhp = Math.max(oppoPoke.getHp() - playerDamage,0);
+        oppoPoke.setHp(newhp);
+    }
+	
+	
+	public void myTurn(Pokemon oppoPoke1, Pokemon oppoPoke2, Pokemon pk) {
         Scanner input = new Scanner(System.in);
         Pokemon.checkhp(oppoPoke1, oppoPoke2);
- 
+
         while (true) {
             try {
-            	double newhp;
-            	double newhp2;
+            	double newhp = 0;
+            	double newhp2 = 0;
                 System.out.println("Choose a pokemon to attack (1 or 2):");
                 int opkchoice = input.nextInt();
- 
+
                 if (opkchoice == 1 && oppoPoke1.getHp() > 0) {
                 	boolean miniGameResult = playMiniGame();
                 	if (miniGameResult) {
+                		
                         System.out.println("Congratulations! You won the mini-game. Your attack damage increases!");
+                        PokemonBattle mt = new PokemonBattle();
                         System.out.println("\nGo " + pk.getName() + "! Use " + pk.getMoveName() + "\n");
-                        double playerEffectiveness = PokemonBattle.determineEffectiveness(pk.getMoveType(), oppoPoke1.getType());
-	                    int playerDamage = (int) (30.0 * (pk.getAtk() / oppoPoke1.getDef()) * playerEffectiveness);
-	                    System.out.println("ATTACK POWER: -" + playerDamage + " HP");
-	                    newhp = Math.max(oppoPoke1.getHp() - playerDamage,0);
-	                    oppoPoke1.setHp(newhp);
+                        mt.MyTurnCalDMG(30.0, newhp, oppoPoke1, pk);
+                    
                     } 
                 	else {
                     	System.out.println("You lost the mini-game. Proceeding with the attack.");
+                    	PokemonBattle mt = new PokemonBattle();
                     	System.out.println("\nGo " + pk.getName() + "! Use " + pk.getMoveName() + "\n");
-                        double playerEffectiveness = PokemonBattle.determineEffectiveness(pk.getMoveType(), oppoPoke1.getType());
-	                    int playerDamage = (int) (20.0 * (pk.getAtk() / oppoPoke1.getDef()) * playerEffectiveness);
-	                    System.out.println("ATTACK POWER: -" + playerDamage + " HP");
-	                    newhp = Math.max(oppoPoke1.getHp() - playerDamage,0);
-	                    oppoPoke1.setHp(newhp);
+                        mt.MyTurnCalDMG(20.0, newhp, oppoPoke1, pk);
                     }
+                    
                     break;
                 } 
                 else if (opkchoice == 2 && oppoPoke2.getHp() > 0) {
                 	boolean miniGameResult = playMiniGame();
                 	if (miniGameResult) {
                         System.out.println("Congratulations! You won the mini-game. Your attack stat temporary increases!");
-	                    System.out.println("\nGo " + pk.getName() + "! Use " + pk.getMoveName() + "\n");
-	                    double playerEffectiveness = PokemonBattle.determineEffectiveness(pk.getMoveType(), oppoPoke2.getType());
-	                    int playerDamage = (int) (30.0 * (pk.getAtk() / oppoPoke2.getDef()) * playerEffectiveness);
-	                    System.out.println("ATTACK POWER: -" + playerDamage + " HP");
-	                    newhp2 = Math.max(oppoPoke2.getHp() - playerDamage,0);
-	                    oppoPoke2.setHp(newhp2);
+                        PokemonBattle mt = new PokemonBattle();
+                        System.out.println("\nGo " + pk.getName() + "! Use " + pk.getMoveName() + "\n");
+                        mt.MyTurnCalDMG(30.0, newhp2, oppoPoke2, pk);
                 	}
                 	else {
                     	System.out.println("You lost the mini-game. Proceeding with the attack.");
+                    	PokemonBattle mt = new PokemonBattle();
                     	System.out.println("\nGo " + pk.getName() + "! Use " + pk.getMoveName() + "\n");
-                        double playerEffectiveness = PokemonBattle.determineEffectiveness(pk.getMoveType(), oppoPoke2.getType());
-	                    int playerDamage = (int) (20.0 * (pk.getAtk() / oppoPoke2.getDef()) * playerEffectiveness);
-	                    System.out.println("ATTACK POWER: -" + playerDamage + " HP");
-	                    newhp2 = Math.max(oppoPoke2.getHp() - playerDamage,0);
-	                    oppoPoke2.setHp(newhp2);
+                        mt.MyTurnCalDMG(20.0, newhp2, oppoPoke2, pk);
                     }
                     break;
                 } 
@@ -467,32 +438,39 @@ public class PokemonBattle {
                 input.next(); 
             }
         }
+        
     }
-	public static void OppoTurn(Pokemon oppoPoke, Pokemon pk1) {
-		double newhp;
+	
+	
+	public void OppoTurn(Pokemon oppoPoke, Pokemon pk) {
+		double newhp = 0;
+		
 		boolean miniGameResult = playMiniGame();
 		if (miniGameResult) {
             System.out.println("Congratulations! You won the mini-game. Your defence stat temporary increases!");
-	        System.out.println("\n" + oppoPoke.getName() + " attacks " + pk1.getName());
-	        double opponentEffectiveness = PokemonBattle.determineEffectiveness(oppoPoke.getMoveType(), pk1.getType());
-	        int opponentDamage = (int) (5.0 * (oppoPoke.getAtk() / pk1.getDef()) * opponentEffectiveness);
-	        System.out.println("ATTACK POWER: -" + opponentDamage + " HP");
-	        newhp = Math.max(pk1.getHp() - opponentDamage,0);
-	        pk1.setHp(newhp);
+            System.out.println("\n" + oppoPoke.getName() + " attacks " + pk.getName() + "\n");
+            PokemonBattle mt = new PokemonBattle();
+            mt.MyTurnCalDMG(5.0, newhp,  pk, oppoPoke);
 		}
 		else {
-			System.out.println("Oops! You lost the mini-game. No increase in defence.");
-	        System.out.println("\n" + oppoPoke.getName() + " attacks " + pk1.getName());
-	        double opponentEffectiveness = PokemonBattle.determineEffectiveness(oppoPoke.getMoveType(), pk1.getType());
-	        int opponentDamage = (int) (10.0 * (oppoPoke.getAtk() / pk1.getDef()) * opponentEffectiveness);
-	        System.out.println("ATTACK POWER: -" + opponentDamage + " HP");
-	        newhp = Math.max(pk1.getHp() - opponentDamage,0);
-	        pk1.setHp(newhp);
+			System.out.println("You lost the mini-game. No increase in defence.");
+			PokemonBattle mt = new PokemonBattle();
+            System.out.println("\n" + oppoPoke.getName() + " attacks " + pk.getName() + "\n");
+            mt.MyTurnCalDMG(10.0, newhp,  pk, oppoPoke);
 		}
 	}
-	public int calculateBattleScore() {
+	
+	
+	public int points(int point) {
+		return point;
+	}
+	 
+	public int calculateBattleScore(int point) {
 		Pokemon playerPokemon1 = getOppoPoke1();
 	    Pokemon playerPokemon2 = getOppoPoke2();
+        PokemonBattle pt = new PokemonBattle();
+	    
+	    
 	    
 	    double totalRemainingHP = playerPokemon1.getHp() + playerPokemon2.getHp();
 	    
@@ -521,6 +499,8 @@ public class PokemonBattle {
 	    } else if (totalRemainingHP >= 5) {
 	    	score = 8000;
 	    }
+	    
+	    score = score + (pt.points(point)*1000);
 	    
 	    saveTopScore(score);
 	    return score;
