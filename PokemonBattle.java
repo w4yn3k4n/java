@@ -294,79 +294,79 @@ public class PokemonBattle {
         }
         
         // Not very effective interactions
-        else if (("Water".contains(attackerType) && "Grass".contains(defenderType)) ||
-        		("Water".contains(attackerType) && "Water".contains(defenderType)) ||
-        		("Water".contains(attackerType) && "Dragon".contains(defenderType)) ||
-        		("Fire".contains(attackerType) && "Fire".contains(defenderType)) ||
-        		("Fire".contains(attackerType) && "Water".contains(defenderType)) ||
-        		("Fire".contains(attackerType) && "Rock".contains(defenderType)) ||
-        		("Fire".contains(attackerType) && "Dragon".contains(defenderType)) || 
-        		("Grass".contains(attackerType) && "Fire".contains(defenderType)) ||
-        		("Grass".contains(attackerType) && "Grass".contains(defenderType)) ||
-        		("Grass".contains(attackerType) && "Poison".contains(defenderType)) || 
-        		("Grass".contains(attackerType) && "Flying".contains(defenderType)) ||
-        		("Grass".contains(attackerType) && "Bug".contains(defenderType)) || 
-        		("Grass".contains(attackerType) && "Dragon".contains(defenderType)) || 
-        		("Grass".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Electric".contains(attackerType) && "Electric".contains(defenderType)) ||
-        		("Electric".contains(attackerType) && "Grass".contains(defenderType)) ||
-        		("Electric".contains(attackerType) && "Dragon".contains(defenderType)) || 
-        		("Ice".contains(attackerType) && "Fire".contains(defenderType)) || 
-        		("Ice".contains(attackerType) && "Water".contains(defenderType)) ||
-        		("Ice".contains(attackerType) && "Ice".contains(defenderType)) ||
-        		("Ice".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Fighting".contains(attackerType) && "Poison".contains(defenderType)) ||
-        		("Fighting".contains(attackerType) && "Flying".contains(defenderType)) ||
-        		("Fighting".contains(attackerType) && "Psychic".contains(defenderType)) || 
-        		("Fighting".contains(attackerType) && "Bug".contains(defenderType)) ||
-        		("Fighting".contains(attackerType) && "Fairy".contains(defenderType)) ||
-        		("Poison".contains(attackerType) && "Poison".contains(defenderType)) ||
-        		("Poison".contains(attackerType) && "Ground".contains(defenderType)) ||
-        		("Poison".contains(attackerType) && "Rock".contains(defenderType)) ||
-        		("Poison".contains(attackerType) && "Ghost".contains(defenderType)) ||
-        		("Ground".contains(attackerType) && "Grass".contains(defenderType)) || 
-        		("Ground".contains(attackerType) && "Bug".contains(defenderType)) || 
-        		("Flying".contains(attackerType) && "Electric".contains(defenderType)) ||
-        		("Flying".contains(attackerType) && "Rock".contains(defenderType)) || 
-        		("Flying".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Psychic".contains(attackerType) && "Psychic".contains(defenderType)) || 
-        		("Psychic".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Bug".contains(attackerType) && "Fire".contains(defenderType)) ||
-        		("Bug".contains(attackerType) && "Fighting".contains(defenderType)) || 
-        		("Bug".contains(attackerType) && "Poison".contains(defenderType)) ||
-        		("Bug".contains(attackerType) && "Flying".contains(defenderType)) ||
-        		("Bug".contains(attackerType) && "Ghost".contains(defenderType)) ||
-        		("Bug".contains(attackerType) && "Steel".contains(defenderType)) || 
-        		("Bug".contains(attackerType) && "Fairy".contains(defenderType)) ||
-        		("Rock".contains(attackerType) && "Fighting".contains(defenderType)) ||
-        		("Rock".contains(attackerType) && "Ground".contains(defenderType)) ||
-        		("Rock".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Dark".contains(attackerType) && "Fighting".contains(defenderType)) ||
-        		("Dark".contains(attackerType) && "Dark".contains(defenderType)) ||
-        		("Dark".contains(attackerType) && "Fairy".contains(defenderType)) ||
-        		("Steel".contains(attackerType) && "Fire".contains(defenderType)) || 
-        		("Steel".contains(attackerType) && "Watter".contains(defenderType)) || 
-        		("Steel".contains(attackerType) && "Electric".contains(defenderType)) ||
-        		("Steel".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Fairy".contains(attackerType) && "Fire".contains(defenderType)) ||
-        		("Fairy".contains(attackerType) && "Poison".contains(defenderType)) ||
-        		("Fairy".contains(attackerType) && "Steel".contains(defenderType)) || 
-        		("Ghost".contains(attackerType) && "Dark".contains(defenderType)) ||
-        		("Dragon".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Normal".contains(attackerType) && "Rock".contains(defenderType)) ||
-        		("Normal".contains(attackerType) && "Steel".contains(defenderType)) ) {
+        else if ((defenderType.contains("Grass") && attackerType.contains("Water") ||
+        		 defenderType.contains("Water") && attackerType.contains("Water") ||
+        		 defenderType.contains("Dragon") && attackerType.contains("Water") ||
+        		 defenderType.contains("Fire") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Water") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Rock") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Dragon") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Fire") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Grass") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Poison") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Flying") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Bug") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Dragon") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Grass") ||
+        		 defenderType.contains("Electric") && attackerType.contains("Electric") ||
+        		 defenderType.contains("Grass") && attackerType.contains("Electric") ||
+        		 defenderType.contains("Dragon") && attackerType.contains("Electric") ||
+        		 defenderType.contains("Fire") && attackerType.contains("Ice") ||
+        		 defenderType.contains("Water") && attackerType.contains("Ice") ||
+        		 defenderType.contains("Ice") && attackerType.contains("Ice") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Ice") ||
+        		 defenderType.contains("Poison") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Flying") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Psychic") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Bug") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Fairy") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Poison") && attackerType.contains("Poison") ||
+        		 defenderType.contains("Ground") && attackerType.contains("Poison") ||
+        		 defenderType.contains("Rock") && attackerType.contains("Poison") ||
+        		 defenderType.contains("Ghost") && attackerType.contains("Poison") ||
+        		 defenderType.contains("Grass") && attackerType.contains("Ground") ||
+        		 defenderType.contains("Bug") && attackerType.contains("Ground") ||
+        		 defenderType.contains("Electric") && attackerType.contains("Flying") ||
+        		 defenderType.contains("Rock") && attackerType.contains("Flying") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Flying") ||
+        		 defenderType.contains("Psychic") && attackerType.contains("Psychic") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Psychic") ||
+        		 defenderType.contains("Fire") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Fighting") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Poison") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Flying") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Ghost") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Fairy") && attackerType.contains("Bug") ||
+        		 defenderType.contains("Rock") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Ground") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Dark") && attackerType.contains("Fighting") ||
+        		 defenderType.contains("Dark") && attackerType.contains("Dark") ||
+        		 defenderType.contains("Fairy") && attackerType.contains("Dark") ||
+        		 defenderType.contains("Fire") && attackerType.contains("Steel") ||
+        		 defenderType.contains("Watter") && attackerType.contains("Steel") ||
+        		 defenderType.contains("Electric") && attackerType.contains("Steel") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Steel") ||
+        		 defenderType.contains("Fairy") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Poison") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Fire") ||
+        		 defenderType.contains("Dark") && attackerType.contains("Ghost") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Dragon") ||
+        		 defenderType.contains("Rock") && attackerType.contains("Normal") ||
+        		 defenderType.contains("Steel") && attackerType.contains("Normal")) ) {
         		     effectiveness = 0.5;
         		     System.out.println("Not very Effective");}
         
         // No effect interactions
-        else if (     ("Electric".contains(attackerType) && "Ground".contains(defenderType)) ||
-        		("Fighting".contains(attackerType) && "Ghost".contains(defenderType)) ||
-        		("Poison".contains(attackerType) && "Steel".contains(defenderType)) ||
-        		("Psychic".contains(attackerType) && "Dark".contains(defenderType)) ||
-        		("Ground".contains(attackerType) && "Flying".contains(defenderType)) ||
-        		("Ghost".contains(attackerType) && "Normal".contains(defenderType)) ||
-        		("Dragon".contains(attackerType) && "Fairy".contains(defenderType)) || 
-        		("Normal".contains(attackerType) && "Rock".contains(defenderType)) ){ 
+        else if ((attackerType.contains("Electric") && defenderType.contains("Ground") ||
+        		 attackerType.contains("Fighting") && defenderType.contains("Ghost") ||
+        		 attackerType.contains("Poison") && defenderType.contains("Steel") ||
+        		 attackerType.contains("Dark") && defenderType.contains("Psychic") ||
+        		 attackerType.contains("Flying") && defenderType.contains("Ground") ||
+        		 attackerType.contains("Normal") && defenderType.contains("Ghost") ||
+        		 attackerType.contains("Dragon") && defenderType.contains("Fairy") || 
+        		 attackerType.contains("Rock") && defenderType.contains("Normal"))){ 
         		effectiveness = 0.0; }
         
         else {
