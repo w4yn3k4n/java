@@ -367,7 +367,8 @@ public class PokemonBattle {
         		 attackerType.contains("Normal") && defenderType.contains("Ghost") ||
         		 attackerType.contains("Dragon") && defenderType.contains("Fairy") || 
         		 attackerType.contains("Rock") && defenderType.contains("Normal"))){ 
-        		effectiveness = 0.0; }
+        		effectiveness = 0.0; 
+			System.out.println("No Effect");}
         
         else {
         	System.out.println("Effective");
