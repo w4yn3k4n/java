@@ -5,6 +5,11 @@ import java.util.Scanner;
 
 public class Ball {
     private static int revealCounter = 0;
+    private static Trainer player;
+    
+    public void setPlayer(Trainer player) {
+        Ball.player = player;
+    }
 
     public static void generateMysteryBalls(boolean isPlayerWinner, Pokemon oppoPoke1, Pokemon oppoPoke2) {
         Random rand = new Random();
@@ -25,11 +30,12 @@ public class Ball {
         System.out.println("\nPress [ Enter ] to reveal the mystery ball...");
         Scanner scanner = new Scanner(System.in);
 		scanner.nextLine();
+        PokemonBattle points = new PokemonBattle();
         
         for (int i = 0; i < numBalls; i++) {
 
 	        // Generate a random number to determine the mystery ball type
-	        int ballType = rand.nextInt(3); // 0, 1, or 2
+	        int ballType = rand.nextInt(4); // 0, 1, or 2
 	
 	        // Convert the random number to ball type
 	        String ballName;
@@ -47,6 +53,10 @@ public class Ball {
 	                ballName = "Ultra Ball";
 	                catchProbability = 0.9;
 	                break;
+	            case 3:
+	            	ballName = "Master Ball";
+	                catchProbability = 1.0;
+	                break;
 	            default:
 	                ballName = "Pokeball"; // Default to Pokeball
 	                catchProbability = 0.7;
@@ -60,7 +70,7 @@ public class Ball {
             } else {
                 displayPokemonDetails2(oppoPoke2);
             }
-            revealCounter++;
+            
             
             String userChoice;
 			do {
@@ -76,14 +86,16 @@ public class Ball {
                 System.out.println("\nYou throw the ball to catch the Pokémon......\n .\n .\n .\n");
                 double randomProbability = rand.nextDouble();
                 if (randomProbability <= catchProbability) {
-                	System.out.println("You caught { " + (revealCounter % 2 == 0 ? oppoPoke1.getName() : oppoPoke2.getName()) + " } !");                    // Add logic here to display opponent Pokémon details and add to trainer list
-                } else {
+                	System.out.println("You caught { " + (revealCounter  == 0 ? oppoPoke1.getName() : oppoPoke2.getName()) + " } !");                     	
+                	player.catchPokemon((revealCounter % 2 == 0 ? oppoPoke1 : oppoPoke2));
+                } 
+                else {
                     System.out.println("You failed to catch { " + (revealCounter % 2 == 0 ? oppoPoke1.getName() : oppoPoke2.getName()) + " }...");
                 }
             } else {
                 System.out.println("You chose not to catch the Pokémon, maybe next time!");
             }
-	
+            revealCounter++;
         }
 
     }
