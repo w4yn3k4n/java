@@ -78,6 +78,9 @@ public class PokemonGame {
         System.out.println("Welcome Trainer " + player.getName());
         System.out.println("");
         PokemonBattle pokemonBattle = new PokemonBattle();
+        Ball trainer = new Ball();
+        trainer.setPlayer(player);
+        
         
         
         String chosenStage;// Assuming user inputs "forest" or "cave" or "mountain"  
@@ -268,7 +271,9 @@ public class PokemonGame {
 	        	System.out.println("-------Your turn to attack!-------");
 	        	Pokemon.checkhp(pokemon1, pokemon2);
 	        	
-	        	PokemonBattle.MyTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+
+	        	PokemonBattle mt = new PokemonBattle();
+	        	mt.MyTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
 	        	
 	       
             
@@ -286,7 +291,8 @@ public class PokemonGame {
             }
             
         
-            PokemonBattle.OpponentTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+            PokemonBattle ot = new PokemonBattle();
+            ot.OpponentTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
             
             
             
@@ -317,7 +323,10 @@ public class PokemonGame {
         	System.out.println("-------OPPONENT START!-------");
         	System.out.println("");
         	while(true) {
-                PokemonBattle.OpponentTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+        		
+        		
+        		PokemonBattle ot = new PokemonBattle();
+                ot.OpponentTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
 
 
                 if (pokemon1.getHp() <= 0 && pokemon2.getHp() <= 0) {
@@ -335,7 +344,8 @@ public class PokemonGame {
             System.out.println("-------Your turn to attack!-------");
             Pokemon.checkhp(pokemon1, pokemon2);
         	
-        	PokemonBattle.MyTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+            PokemonBattle mt = new PokemonBattle();
+        	mt.MyTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
 
         	if ((op.getOppoPoke1().getHp() <= 0) && (op.getOppoPoke2().getHp() <= 0)) {
         		PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
@@ -364,10 +374,13 @@ public class PokemonGame {
         }
         }
 
-	pokemonBattle.setOppoPoke1(pokemon1);
+        pokemonBattle.setOppoPoke1(pokemon1);
         pokemonBattle.setOppoPoke2(pokemon2);
         
-       int battleScore = pokemonBattle.calculateBattleScore();
+        player.displayCaughtPokemons();
+       
+        PokemonBattle points = new PokemonBattle();
+       int battleScore = pokemonBattle.calculateBattleScore(player.getCaughtPokemons().size());
        System.out.println("\nBattle Score: " + battleScore);
        
        pokemonBattle.displayTopScores();
