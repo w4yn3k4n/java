@@ -485,6 +485,100 @@ public class PokemonBattle {
 	        pk1.setHp(newhp);
 		}
 	}
+	public int calculateBattleScore() {
+		Pokemon playerPokemon1 = getOppoPoke1();
+	    Pokemon playerPokemon2 = getOppoPoke2();
+	    
+	    double totalRemainingHP = playerPokemon1.getHp() + playerPokemon2.getHp();
+	    
+	    int score = (int) totalRemainingHP;
+	    
+	    if(totalRemainingHP >= 100) {
+	    	score = 100000;
+	    } else if (totalRemainingHP >= 90) {
+	    	score = 90000;
+	    } else if (totalRemainingHP >= 80) {
+	    	score = 80000;
+	    } else if (totalRemainingHP >= 70) {
+	    	score = 70000;
+	    } else if (totalRemainingHP >= 60) {
+	    	score = 60000;
+	    } else if (totalRemainingHP >= 50) {
+	    	score = 55000;
+	    } else if (totalRemainingHP >= 40) {
+	    	score = 50000;
+	    } else if (totalRemainingHP >= 30) {
+	    	score = 30000;
+	    } else if (totalRemainingHP >= 20) {
+	    	score = 20000;
+	    } else if (totalRemainingHP >= 10) {
+	    	score = 10000;
+	    } else if (totalRemainingHP >= 5) {
+	    	score = 8000;
+	    }
+	    
+	    saveTopScore(score);
+	    return score;
+	}
 	
+	public void displayTopScores() {
+        try {
+            File file = new File("top_scores.txt");
+            if (!file.exists()) {
+                System.out.println("Top scores file doesn't exist yet.");
+                return;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            List<Integer> topScores = new ArrayList<>();
+
+            while ((line = reader.readLine()) != null) {
+                topScores.add(Integer.parseInt(line));
+            }
+
+            reader.close();
+
+            // Sort the scores in descending order
+            topScores.sort(Collections.reverseOrder());
+
+            System.out.println("Top 5 Scores:");
+            for (int i = 0; i < Math.min(5, topScores.size()); i++) {
+                System.out.println((i + 1) + ". " + topScores.get(i));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveTopScore(int score) {
+        try {
+            File file = new File("top_scores.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            List<Integer> topScores = new ArrayList<>();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                topScores.add(Integer.parseInt(line));
+            }
+            reader.close();
+
+            topScores.add(score);
+            topScores.sort(Collections.reverseOrder());
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            for (int i = 0; i < Math.min(5, topScores.size()); i++) {
+                writer.write(topScores.get(i) + "\n");
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 }
