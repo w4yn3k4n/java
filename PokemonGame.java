@@ -1,3 +1,5 @@
+package oopffinal;
+
 import java.util.*;
 
 public class PokemonGame {
@@ -250,7 +252,7 @@ public class PokemonGame {
         String coinResult = Pokemon.flipCoin();
         
 
-       
+        boolean isPlayerWinner = false;
         	
         if(!coinSide.equalsIgnoreCase("Heads") && !coinSide.equalsIgnoreCase("Tails")){
         	System.out.println("Invalid Choice, choose again.");
@@ -274,6 +276,7 @@ public class PokemonGame {
             	PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
                 System.out.println("You defeated " + op.getOppoPoke1().getName() + " and "+ op.getOppoPoke2().getName());
                 System.out.println("----------Battle End-----------");
+                isPlayerWinner=true;
                 break;
             } 
             
@@ -291,6 +294,7 @@ public class PokemonGame {
                 System.out.println("You are defeated......");
                 PokemonBattle.displayPokemonHealth(pokemon1, pokemon2);
                 System.out.println("----------Battle End-----------");
+                isPlayerWinner=false;
                 break;
             } 
             else {
@@ -298,8 +302,12 @@ public class PokemonGame {
             }
             
         	}
-        	
-        	
+        	if (isPlayerWinner) {
+        		Ball.generateMysteryBalls(true,op.getOppoPoke1(), op.getOppoPoke2()); // Pass true for player wins
+
+        	} else {
+        		Ball.generateMysteryBalls(false,op.getOppoPoke1(), op.getOppoPoke2()); // Pass false for player loses
+        	}        	
         	break;
         }
         
@@ -316,6 +324,7 @@ public class PokemonGame {
                 	PokemonBattle.displayPokemonHealth(pokemon1, pokemon2);
                     System.out.println("You are defeated......");
                     System.out.println("----------Battle End-----------");
+                    isPlayerWinner=false;
                     break;
                 } 
                 else {
@@ -332,6 +341,7 @@ public class PokemonGame {
         		PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
                 System.out.println("You defeated " + op.getOppoPoke1().getName() + " and "+ op.getOppoPoke2().getName());
                 System.out.println("----------Battle End-----------");
+                isPlayerWinner = true;
                 break;
             } 
             
@@ -340,6 +350,12 @@ public class PokemonGame {
             	PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
 
             }
+        }
+        	if (isPlayerWinner) {
+        		Ball.generateMysteryBalls(true,op.getOppoPoke1(), op.getOppoPoke2()); // Pass true for player wins
+
+        	} else {
+        		Ball.generateMysteryBalls(false,op.getOppoPoke1(), op.getOppoPoke2()); // Pass false for player loses
         	}
         	break;
         }
