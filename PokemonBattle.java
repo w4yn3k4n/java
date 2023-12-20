@@ -118,10 +118,7 @@ public class PokemonBattle {
         }
         }
     }
-   
-	public void setUserPokemons(Pokemon[] userPokemon) {
 
-	}
 	
 	public void MyTurnChoose(Pokemon pokemon1, Pokemon pokemon2, Pokemon oppoPoke, Pokemon oppoPoke2) {
 	    int pkchoice;
