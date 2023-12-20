@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.io.*;
+
 
 public class PokemonBattle {
     private Pokemon oppoPoke1;
