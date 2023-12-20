@@ -25,7 +25,7 @@ public class CaveStage extends Stage{
             return availableOpponents.get(0); // Return a random opponent from available ones
         } else {
             // If none of the specific Pokémon are available, return a default Pokémon
-            return new Pokemon("Haunter", "Ghost/Poison", "Shadow Ball", 45.0, 50.0, 45.0, 95.0);
+            return new Pokemon("Haunter", "Ghost/Poison", "Shadow Ball", "Ghost",45.0, 50.0, 45.0, 95.0);
         }
     }
 

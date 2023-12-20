@@ -28,7 +28,7 @@ public class ForestStage extends Stage {
             return availableOpponents.get(0); // Return a random opponent from available ones
         } else {
             // If none of the specific Pokémon are available, return a default Pokémon
-            return new Pokemon("Bulbasaur", "Grass/Poison", "Vine Whip", 45.0, 49.0, 49.0, 45.0);
+            return new Pokemon("Bulbasaur", "Grass/Poison", "Vine Whip", "Grass",45.0, 49.0, 49.0, 45.0);
         }
     }
 

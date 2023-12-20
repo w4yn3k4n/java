@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class PokemonCatch {
 	private Pokemon WildPoke1;
@@ -93,27 +92,6 @@ public class PokemonCatch {
                 System.out.println("Invalid input. Please enter a number between 1 and 3.");
             }
         }
-		
-		switch (userChoice) {
-        case 1:
-            Pokemon wildPokemon = new Pokemon(wildPoke1.getName(), wildPoke1.getType(), wildPoke1.getMoveType(), wildPoke1.getHp(), wildPoke1.getAtk(), wildPoke1.getDef(), wildPoke1.getSpd());
-            Trainer.catchPokemon(wildPokemon);
-            break;
-        case 2:
-            Pokemon wildPokemon2 = new Pokemon(wildPoke2.getName(), wildPoke2.getType(), wildPoke2.getMoveType(), wildPoke2.getHp(), wildPoke2.getAtk(), wildPoke2.getDef(), wildPoke2.getSpd());
-            Trainer.catchPokemon(wildPokemon2);
-            break;
-        case 3:
-            Pokemon wildPokemon3 = new Pokemon(wildPoke3.getName(), wildPoke3.getType(), wildPoke3.getMoveType(), wildPoke3.getHp(), wildPoke3.getAtk(), wildPoke3.getDef(), wildPoke3.getSpd());
-            Trainer.catchPokemon(wildPokemon3);
-            break;
-    }
-
-    // Accessing caught Pokémon
-    List<Pokemon> caughtPokemons = Trainer.getCaughtPokemons();
-    for (Pokemon caughtPokemon : caughtPokemons) {
-        System.out.println(Trainer.getName() + "'s Pokémon: " + caughtPokemon.getName());
-    }
 	}
 	
 }

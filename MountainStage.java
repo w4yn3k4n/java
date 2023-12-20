@@ -27,7 +27,7 @@ public class MountainStage extends Stage {
 	            return availableOpponents.get(0); // Return a random opponent from available ones
 	        } else {
 	            // If none of the specific Pokémon are available, return a default Pokémon
-	            return new Pokemon("Lucario", "Fighting/Steel", "Aura Sphere", 70.0, 110.0, 70.0, 90.0);
+	            return new Pokemon("Lucario", "Fighting/Steel", "Aura Sphere", "Fighting",70.0, 110.0, 70.0, 90.0);
 	        }
 	    }
 

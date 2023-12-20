@@ -3,37 +3,33 @@ import java.util.Scanner;
 import java.util.List;
 
 public class Trainer {
-    private static String name;
-    private static List<Pokemon> caughtPokemons;
+    private String name;
+    private List<Pokemon> caughtPokemons;
     private Scanner scanner;
-    private static Pokemon lastCaughtPokemon;
-    
-
-    public Trainer(String name) {
-        Trainer.name = name;
-        Trainer.caughtPokemons = new ArrayList<>();
-        this.scanner = new Scanner(System.in);
-    }
     
     public Trainer() {
-    	this.scanner = new Scanner(System.in);
+    	
     }
-    
-    
 
-    // Getter for the trainer's name
-    public static String getName() {
+    public Trainer(String name) {
+        this.name = name;
+        this.caughtPokemons = new ArrayList<>();
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
         return name;
     }
-    
 
-    // Getter for the list of caught Pokemon
-    public static List<Pokemon> getCaughtPokemons() {
+    public List<Pokemon> getCaughtPokemons() {
         return caughtPokemons;
     }
-    
-    public static void catchPokemon(Pokemon pokemon) {
-    	lastCaughtPokemon = pokemon;
+
+    public void catchPokemon(Pokemon pokemon) {
         if (caughtPokemons == null) {
             caughtPokemons = new ArrayList<>();
         }
@@ -42,16 +38,22 @@ public class Trainer {
         System.out.println(name + " caught a new Pokémon: " + pokemon.getName());
     }
 
-    public static Pokemon getLastCaughtPokemon() {
-        return lastCaughtPokemon; 
+    public String lastCaughtPokemonName() {
+        int lastIndex = caughtPokemons.size() - 1;
+        if (lastIndex >= 0) {
+            Pokemon lastCaughtPokemon = caughtPokemons.get(lastIndex);
+            return lastCaughtPokemon.getName();
+        } else {
+            return "No Pokémon caught yet.";
+        }
     }
+
+    public void displayCaughtPokemons() {
+        System.out.println("\nPokémon caught by " + name + ":");
+        for (Pokemon pokemon : caughtPokemons) {
+            System.out.println(pokemon.getName());
+        }
     
-    public void enterName() {
-		System.out.println("Enter your name Trainer: ");
-		String name = scanner.nextLine(); 
-		Trainer n = new Trainer(name);
-		System.out.println("\nWelcome Trainer " + Trainer.getName());
-    }
-    
-    
+
+	}
 }
