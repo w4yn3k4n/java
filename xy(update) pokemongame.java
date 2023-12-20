@@ -5,7 +5,7 @@ import java.util.*;
 public class PokemonGame {
     public static void main(String[] args) {
        
-Pokemon[] pokemonArray = new Pokemon[58];
+    	Pokemon[] pokemonArray = new Pokemon[58];
 
         
         pokemonArray[0] = new Pokemon("Charmander", "Fire", "Fire Blast", "Fire", 39.0, 52.0, 43.0, 65.0);
@@ -70,35 +70,35 @@ Pokemon[] pokemonArray = new Pokemon[58];
 
         Scanner scanner = new Scanner(System.in);
 
-        Trainer player = new Trainer();
-        
+        Trainer player = new Trainer();     
         System.out.println("Enter your name Trainer: ");
-        String enteredName = scanner.nextLine();
-        
+        String enteredName = scanner.nextLine();    
         player.setName(enteredName);
-        
-        System.out.println("");
-        
+        System.out.println(""); 
         System.out.println("Welcome Trainer " + player.getName());
-
         System.out.println("");
-        
         PokemonBattle pokemonBattle = new PokemonBattle();
-        System.out.println("Choose a stage (Forest / Cave / Mountain):");
-        String chosenStage = scanner.nextLine().toLowerCase(); // Assuming user inputs "forest" or "cave" or "mountain"
         
+        
+        String chosenStage;// Assuming user inputs "forest" or "cave" or "mountain"  
         Stage currentStage = null; // Declare currentStage=null (to match the user chosen stage)
 
 
-        if (chosenStage.equals("forest")) {
-        	currentStage = new ForestStage(pokemonArray);
-        } else if (chosenStage.equals("cave")) {
-        	currentStage = new CaveStage(pokemonArray);
-        } else if (chosenStage.equals("mountain")) {
-        	currentStage = new MountainStage(pokemonArray);
-        } else {
-            System.out.println("Invalid stage choice. Exiting.");
-            return;
+        while (true) {
+        	System.out.println("Choose a stage (Forest / Cave / Mountain):");
+             chosenStage = scanner.nextLine().toLowerCase();
+            if (chosenStage.equals("forest")) {
+                currentStage = new ForestStage(pokemonArray);
+                break;
+            } else if (chosenStage.equals("cave")) {
+                currentStage = new CaveStage(pokemonArray);
+                break;
+            } else if (chosenStage.equals("mountain")) {
+                currentStage = new MountainStage(pokemonArray);
+                break;
+            } else {
+                System.out.println("Invalid stage choice. Please choose from Forest, Cave, or Mountain.");
+            }
         }
 
         currentStage.chooseStage(); // Display available Pokémon in the chosen stage
@@ -171,7 +171,6 @@ Pokemon[] pokemonArray = new Pokemon[58];
         
         PokemonBattle op = new PokemonBattle();
         
-        // Assuming you have wild Pokémon ready for battle
         op.setOppoPoke1(currentStage.chooseOpponentPokemon());
         op.setOppoPoke2(Pokemon.getRandomPokemonCatch(pokemonArray));
         
@@ -224,31 +223,19 @@ Pokemon[] pokemonArray = new Pokemon[58];
         Pokemon pokemon2 = player.getCaughtPokemons().get(choice2 - 1);
 
 
-        System.out.println("You have sent out " + pokemon1.getName() + " and " + pokemon2.getName()+" to battle!");
-        
-        System.out.println(".\n\n.\n\n.\n\n");
-        
-        System.out.println("\n----------Battle Start!----------\n");
-        
-        System.out.println("");
-        
-        scanner.nextLine();
-        
-        while(true) {
-        
+        System.out.println("You have sent out " + pokemon1.getName() + " and " + pokemon2.getName()+" to battle!");        
+        System.out.println(".\n\n.\n\n.\n\n");      
+        System.out.println("\n----------Battle Start!----------\n");     
+        System.out.println("");   
+        scanner.nextLine();  
+        while(true) { 
         System.out.println("Choose Heads or Tails: ");
         String coinSide = scanner.nextLine();
-
         String coinResult = Pokemon.flipCoin();
         
-        double newOpponentHp1 = 0;
-        double newOpponentHp2 = 0;
-        
-        double newPokemonHp1 = 0;
-        double newPokemonHp2 = 0;
-        
-        
-        
+
+        boolean isPlayerWinner = false;
+
         	
         if(!coinSide.equalsIgnoreCase("Heads") && !coinSide.equalsIgnoreCase("Tails")){
         	System.out.println("Invalid Choice, choose again.");
@@ -264,179 +251,48 @@ Pokemon[] pokemonArray = new Pokemon[58];
 	        	System.out.println("-------Your turn to attack!-------");
 	        	Pokemon.checkhp(pokemon1, pokemon2);
 	        	
-	        	int pkchoice;
-	        	while(true) {
-	        	try {
-	        
-	        	System.out.println("");
-	        	System.out.println("Choose a pokemon to use. (1 or 2):");
-	        	
-	        	pkchoice = scanner.nextInt();
-	        	
-	        	if(pkchoice == 1 && pokemon1.getHp() > 0) {
-	        		PokemonBattle.myTurn(newOpponentHp1, newOpponentHp2, op.getOppoPoke1(), op.getOppoPoke2(), pokemon1);
-	        		break;
-	        	}
-	        	
-	        	else if (pkchoice == 1 && pokemon1.getHp() < 0) {
-	        		System.out.println(pokemon1.getName()+ " has fainted");
-	        		System.out.println(" Choose another pokemon");
-	        	}
-	        	
-	        	else if (pkchoice == 2 && pokemon2.getHp() > 0) {
-	        		PokemonBattle.myTurn(newOpponentHp1, newOpponentHp2, op.getOppoPoke1(), op.getOppoPoke2(), pokemon2);
-	        		break;
-	        	}
-	        	
-	        	else if (pkchoice == 2 && pokemon2.getHp() < 0) {
-	        		System.out.println(pokemon2.getName()+ " has fainted");
-	        		System.out.println(" Choose another pokemon");
-	        	}
-	        	
-	        	
-	        	else {
-	        		System.out.println("Invalid Choice, choose again.");
-	        	}
-	        		}
-	        	catch(java.util.InputMismatchException e) {
-	        		System.out.println("Invalid Choice, enter a valid integer.");
-	                scanner.next();
-	        	}
-        	
-	        	}
-	        	
-	       
-            
+	        	PokemonBattle.MyTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+	        	            
             if ((op.getOppoPoke1().getHp() <= 0) && (op.getOppoPoke2().getHp() <= 0)) {
-            	System.out.println("");
-            	System.out.println("----------------------------------------------------------------------------------------");
-                System.out.println(op.getOppoPoke1().getName() + " has " + op.getOppoPoke1().getHp() + " HP remaining!");
-                System.out.println(op.getOppoPoke2().getName() + " has " + op.getOppoPoke2().getHp() + " HP remaining!");
-            	System.out.println("----------------------------------------------------------------------------------------");
-            	System.out.println("");
+            	PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
                 System.out.println("You defeated " + op.getOppoPoke1().getName() + " and "+ op.getOppoPoke2().getName());
                 System.out.println("----------Battle End-----------");
-                PokemonBattle.awardPokeballs(true, pokemon1, pokemon2) ;
+                isPlayerWinner=true;
+
                 break;
             } 
             
             
             else {
-            	System.out.println("");
-            	System.out.println("----------------------------------------------------------------------------------------");
-                System.out.println(op.getOppoPoke1().getName() + " has " + op.getOppoPoke1().getHp() + " HP remaining!");
-                System.out.println(op.getOppoPoke2().getName() + " has " + op.getOppoPoke2().getHp() + " HP remaining!");
-            	System.out.println("----------------------------------------------------------------------------------------");
-            	System.out.println("");
+            	PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
+            }
+            
+        
+            PokemonBattle.OpponentTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+            
+            
 
-            }
-            
-            
-            
-            
-            System.out.println("-------Opponent's turns to attack!-------");
-            Pokemon.flipCoin();
-            
-            if ((Pokemon.flipCoin().equals("Heads")) && (op.getOppoPoke1().getHp() > 0)) {
-            	Pokemon.flipCoin();
-            	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-            	}
-            	else {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-            	}
-            }
-            
-            
-            else if ((Pokemon.flipCoin().equals("Heads")) && (op.getOppoPoke1().getHp() < 0)) {
-            	Pokemon.flipCoin();
-            	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-            	}
-            	else {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-            	}
-            }
-            
-            else if ((Pokemon.flipCoin().equals("Tails")) && (op.getOppoPoke2().getHp() > 0)) {
-            	Pokemon.flipCoin();
-            	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-            	}
-            	else {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-            	}
-            }
-                   
-            else {
-            	Pokemon.flipCoin();
-            	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-            	}
-            	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-            		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-            	}
-            	else {
-            		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-            	}
-            }
-            
-            
-            
             if (pokemon1.getHp() <= 0 && pokemon2.getHp() <= 0) {
                 System.out.println("You are defeated......");
-                System.out.println("");
-            	System.out.println("----------------------------------------------------------------------------------------");
-                System.out.println(pokemon1.getName() + " has " + pokemon1.getHp() + " HP");
-                System.out.println(pokemon2.getName() + " has " + pokemon2.getHp() + " HP");
-            	System.out.println("----------------------------------------------------------------------------------------");
-            	System.out.println("");
+                PokemonBattle.displayPokemonHealth(pokemon1, pokemon2);
                 System.out.println("----------Battle End-----------");
-                PokemonBattle.awardPokeballs(false, pokemon1, pokemon2) ;
+                isPlayerWinner=false;
 
                 break;
             } 
             else {
-            	System.out.println("");
-            	System.out.println("----------------------------------------------------------------------------------------");
-                System.out.println(pokemon1.getName() + " has " + pokemon1.getHp() + " HP remaining!");
-                System.out.println(pokemon2.getName() + " has " + pokemon2.getHp() + " HP remaining!");
-                System.out.println("----------------------------------------------------------------------------------------");
-            	System.out.println("");
+            	PokemonBattle.displayPokemonHealth(pokemon1, pokemon2);
             }
             
-            
-        	
-        	
-        	}//while true
-        	
-        	
+        	}
+        	if (isPlayerWinner) {
+        		Ball.generateMysteryBalls(true,op.getOppoPoke1(), op.getOppoPoke2()); // Pass true for player wins
+
+        	} else {
+        		Ball.generateMysteryBalls(false,op.getOppoPoke1(), op.getOppoPoke2()); // Pass false for player loses
+        	}
         	break;
         }
-        
-        
-        
         
         
         else if (!coinSide.equalsIgnoreCase(coinResult)) {
@@ -444,166 +300,44 @@ Pokemon[] pokemonArray = new Pokemon[58];
         	System.out.println("-------OPPONENT START!-------");
         	System.out.println("");
         	while(true) {
-        		System.out.println("-------Opponent's turns to attack!-------");
-                Pokemon.flipCoin();
-                
-                if ((Pokemon.flipCoin().equals("Heads")) && (op.getOppoPoke1().getHp() > 0)) {
-                	Pokemon.flipCoin();
-                	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-                	}
-                	else {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-                	}
-                }
-                
-                
-                else if ((Pokemon.flipCoin().equals("Heads")) && (op.getOppoPoke1().getHp() < 0)) {
-                	Pokemon.flipCoin();
-                	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-                	}
-                	else {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-                	}
-                }
-                
-                else if ((Pokemon.flipCoin().equals("Tails")) && (op.getOppoPoke2().getHp() > 0)) {
-                	Pokemon.flipCoin();
-                	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke2(), pokemon2);
-                	}
-                	else {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke2(), pokemon1);
-                	}
-                }
-                       
-                else {
-                	Pokemon.flipCoin();
-                	if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() > 0)) {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Heads")) && (pokemon1.getHp() < 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-                	}
-                	else if ((Pokemon.flipCoin().equals("Tails")) && (pokemon2.getHp() > 0)){
-                		PokemonBattle.OppoTurn(newPokemonHp2, op.getOppoPoke1(), pokemon2);
-                	}
-                	else {
-                		PokemonBattle.OppoTurn(newPokemonHp1, op.getOppoPoke1(), pokemon1);
-                	}
-                
-                }
-                
-                
-                
+                PokemonBattle.OpponentTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+
                 if (pokemon1.getHp() <= 0 && pokemon2.getHp() <= 0) {
-                	System.out.println("");
-                	System.out.println("----------------------------------------------------------------------------------------");
-                    System.out.println(pokemon1.getName() + " has " + pokemon1.getHp() + " HP remaining!");
-                    System.out.println(pokemon2.getName() + " has " + pokemon2.getHp() + " HP remaining!");
-                	System.out.println("----------------------------------------------------------------------------------------");
-                	System.out.println("");
+                	PokemonBattle.displayPokemonHealth(pokemon1, pokemon2);
                     System.out.println("You are defeated......");
                     System.out.println("----------Battle End-----------");
-                    PokemonBattle.awardPokeballs(false,pokemon1, pokemon2);
+                    isPlayerWinner=false;
                     break;
                 } 
                 else {
-                	System.out.println("");
-                	System.out.println("----------------------------------------------------------------------------------------");
-                    System.out.println(pokemon1.getName() + " has " + pokemon1.getHp() + " HP remaining!");
-                    System.out.println(pokemon2.getName() + " has " + pokemon2.getHp() + " HP remaining!");
-                	System.out.println("----------------------------------------------------------------------------------------");
-                	System.out.println("");
+                	PokemonBattle.displayPokemonHealth(pokemon1, pokemon2);
                 }
             
             
-            System.out.println("-------Your turns to attack!-------");
+            System.out.println("-------Your turn to attack!-------");
             Pokemon.checkhp(pokemon1, pokemon2);
         	
-        	int pkchoice;
-        	while(true) {
-        		try {
-        	System.out.println("Choose a pokemon to use. (1 or 2):");
-        	
-        	pkchoice = scanner.nextInt();
-        	
-        	if(pkchoice == 1 && pokemon1.getHp() > 0) {
-        		PokemonBattle.myTurn(newOpponentHp1, newOpponentHp2, op.getOppoPoke1(), op.getOppoPoke2(), pokemon1);
-        		break;
-        	}
-        	
-        	else if (pkchoice == 1 && pokemon1.getHp() < 0) {
-        		System.out.println(pokemon1.getName()+ " has fainted");
-        		System.out.println(" Choose another pokemon");
-        	}
-        	
-        	else if (pkchoice == 2 && pokemon2.getHp() > 0) {
-        		PokemonBattle.myTurn(newOpponentHp1, newOpponentHp2, op.getOppoPoke1(), op.getOppoPoke2(), pokemon2);
-        		break;
-        	}
-        	
-        	else if (pkchoice == 2 && pokemon2.getHp() < 0) {
-        		System.out.println(pokemon2.getName()+ " has fainted");
-        		System.out.println(" Choose another pokemon");
-        	}
-        	
-        	
-        	else {
-        		System.out.println("Invalid Choice, choose again.");
-        	}
-        	
-        		}
-        		
-        		catch (java.util.InputMismatchException e) {
-            		System.out.println("Invalid choice");
-            		scanner.next();
-            	}
-        	}
+        	PokemonBattle.MyTurnChoose(pokemon1, pokemon2, op.getOppoPoke1(), op.getOppoPoke2());
+
         	if ((op.getOppoPoke1().getHp() <= 0) && (op.getOppoPoke2().getHp() <= 0)) {
-        		System.out.println("");
-            	System.out.println("----------------------------------------------------------------------------------------");
-                System.out.println(op.getOppoPoke1().getName() + " has " + op.getOppoPoke1().getHp() + " HP remaining!");
-                System.out.println(op.getOppoPoke2().getName() + " has " + op.getOppoPoke2().getHp() + " HP remaining!");
-            	System.out.println("----------------------------------------------------------------------------------------");
-            	System.out.println("");
+        		PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
                 System.out.println("You defeated " + op.getOppoPoke1().getName() + " and "+ op.getOppoPoke2().getName());
                 System.out.println("----------Battle End-----------");
-                PokemonBattle.awardPokeballs(true, pokemon1, pokemon2) ;
+                isPlayerWinner = true;
                 break;
-            } 
-            
-            
-            else {
-            	System.out.println("");
-            	System.out.println("----------------------------------------------------------------------------------------");
-                System.out.println(op.getOppoPoke1().getName() + " has " + op.getOppoPoke1().getHp() + " HP remaining!");
-                System.out.println(op.getOppoPoke2().getName() + " has " + op.getOppoPoke2().getHp() + " HP remaining!");
-            	System.out.println("----------------------------------------------------------------------------------------");
-            	System.out.println("");
-
             }
+            else {
+            	PokemonBattle.displayPokemonHealth(op.getOppoPoke1(), op.getOppoPoke2());
+            }
+        }
+        	if (isPlayerWinner) {
+        		Ball.generateMysteryBalls(true,op.getOppoPoke1(), op.getOppoPoke2()); // Pass true for player wins
+
+        	} else {
+        		Ball.generateMysteryBalls(false,op.getOppoPoke1(), op.getOppoPoke2()); // Pass false for player loses
         	}
-        	break;
+        break;
+        
         }
         else {
         	System.out.println("Invalid side!");
